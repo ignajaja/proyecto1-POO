@@ -4,17 +4,20 @@
  */
 package Aplicacion;
 
+import Ventanas.VentanaAdministracion;
+
 /**
  * elaborado por Ignacio Elizondo y Felipe Pineda
  * carné: 2025088220 y <carné de felipe> (respectivamente)
  */
-public class Main {
+public class MainAdministrador {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        VentanaAdministracion admin = new VentanaAdministracion();
+        admin.setVisible(true);
     }
     
 }
