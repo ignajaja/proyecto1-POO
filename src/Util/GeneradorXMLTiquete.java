@@ -16,7 +16,6 @@ import java.util.List;
 public class GeneradorXMLTiquete {
     public static void Generar(List<Tiquete> tiquetes, OutputStream salida){
         PrintWriter pw = new PrintWriter(salida);
-        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         pw.println("<tiquetes>");
         
         for (Tiquete t : tiquetes) {

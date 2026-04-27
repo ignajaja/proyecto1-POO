@@ -5,7 +5,7 @@ import java.util.Date;
 public class Precio {
     String id;
     String precio;
-    Date fecha;
+    String fecha;
     String tipo; // esto es el id del tipo
 
     public String getId() {
@@ -24,11 +24,11 @@ public class Precio {
         this.precio = precio;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -40,7 +40,7 @@ public class Precio {
         this.tipo = tipo;
     }
 
-    public Precio(String id, String precio, Date fecha, String tipo) {
+    public Precio(String id, String precio, String fecha, String tipo) {
         this.id = id;
         this.precio = precio;
         this.fecha = fecha;

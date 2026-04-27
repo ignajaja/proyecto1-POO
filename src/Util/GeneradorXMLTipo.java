@@ -16,7 +16,6 @@ import java.util.List;
 public class GeneradorXMLTipo {
     public static void Generar(List<Tipo> tipos, OutputStream salida){
         PrintWriter pw = new PrintWriter(salida);
-        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         pw.println("<tipos>");
         
         for (Tipo t : tipos) {

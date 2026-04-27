@@ -16,7 +16,6 @@ import java.util.List;
 public class GeneradorXMLPrecio {
     public static void Generar(List<Precio> precios, OutputStream salida){
         PrintWriter pw = new PrintWriter(salida);
-        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         pw.println("<precios>");
         
         for (Precio p : precios) {

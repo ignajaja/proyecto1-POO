@@ -5,6 +5,15 @@
 package Ventanas;
 
 import Conceptos.Tiquete;
+import Util.GeneradorXMLTiquete;
+import Util.IdGenerator;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,7 +42,7 @@ public class VentaTipo2 extends javax.swing.JFrame {
         imagen1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        textoNombre1 = new javax.swing.JTextField();
+        tf1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -49,9 +58,9 @@ public class VentaTipo2 extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Nombre de la persona:");
 
-        textoNombre1.addActionListener(new java.awt.event.ActionListener() {
+        tf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textoNombre1ActionPerformed(evt);
+                tf1ActionPerformed(evt);
             }
         });
 
@@ -94,7 +103,7 @@ public class VentaTipo2 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
-                    .addComponent(textoNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -115,7 +124,7 @@ public class VentaTipo2 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,19 +135,26 @@ public class VentaTipo2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textoNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoNombre1ActionPerformed
+    private void tf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textoNombre1ActionPerformed
+    }//GEN-LAST:event_tf1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Tiquete tiquete = new Tiquete();
-        String nombre = textoNombre1.getText();
-        tiquete.setNombre(nombre);
-        
-        tiquete.setId("TIPO-002");
-        
-        VentanaCompraExitosa VCE = new VentanaCompraExitosa();
-        VCE.setVisible(true);
+        try{
+            File xmlFile = new File("src/data/tiquetes.xml");
+            ArrayList<Tiquete> tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+            Tiquete tiqueteNuevo = new Tiquete(IdGenerator.generarIdTiquete(),tf1.getText(), "PREC-001");
+            tiquetes.add(tiqueteNuevo);
+            
+            OutputStream stream = new FileOutputStream(xmlFile);
+            GeneradorXMLTiquete.Generar(tiquetes, stream);
+            stream.close();
+            
+            JOptionPane.showMessageDialog(this, "Compra exitosa", "Éxito", 1);
+
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, "Error con la compra", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -195,6 +211,6 @@ public class VentaTipo2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField textoNombre1;
+    private javax.swing.JTextField tf1;
     // End of variables declaration//GEN-END:variables
 }

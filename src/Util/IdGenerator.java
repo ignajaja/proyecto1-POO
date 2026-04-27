@@ -47,22 +47,28 @@ public class IdGenerator {
         }
     }
     
-    private static void inicializarIdTiquete(){
+   private static void inicializarIdTiquete() {
         if (idTique != -1) return;
         idTique = 0;
-        try{
+        try {
             File xmlFile = new File("src/data/tiquetes.xml");
-            if(!xmlFile.exists()) return;
-            ArrayList<Tiquete> tiquetes = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
-            for (Tiquete ti: tiquetes){
-                int numero = Integer.parseInt(ti.getId().split("-")[1]);
-                if (numero >= idTique) idTique = numero +1;
+            if (!xmlFile.exists()) return;
+
+            ArrayList<Tiquete> tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+            if (tiquetes.isEmpty()) return;
+
+            for (Tiquete t : tiquetes) {
+                try {
+                    int numero = Integer.parseInt(t.getId().split("-")[1]);
+                    if (numero >= idTique) idTique = numero + 1;
+                } catch (NumberFormatException e) {
+                    System.err.println("ID con formato inválido: " + t.getId());
+                }
             }
-        } catch(Exception e) {
-            System.err.println("Error al inicalizar las identificaciones de los tipos. " + e.getMessage());
-        }
+        } catch (Exception e) {
+            System.err.println("Error al inicializar idTiquetes: " + e.getMessage());
     }
-    
+}
     public static String generarIdTipo(){
         inicializarIdTipo();
         return String.format("TIPO-%03d", idTipos++);

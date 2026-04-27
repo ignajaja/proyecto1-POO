@@ -6,12 +6,17 @@ package Ventanas;
 
 import Conceptos.Tipo;
 import Util.CrearArchivoTipos;
+import Util.GeneradorXMLTipo;
 import Util.IdGenerator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,7 +51,6 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
             
             for (Tipo t : tipos){
                 Vector<String> fila = new Vector<String>();
-//                System.out.println(t.getId());
                 fila.addElement(t.getId());
                 fila.addElement(t.getNombre());
                 fila.addElement(t.getDescripcion());
@@ -125,8 +129,18 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
         });
 
         bModif.setText("Modificar");
+        bModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModifActionPerformed(evt);
+            }
+        });
 
         bBorra.setText("Borrar");
+        bBorra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBorraActionPerformed(evt);
+            }
+        });
 
         tf1.setMinimumSize(new java.awt.Dimension(70, 22));
         tf1.setPreferredSize(new java.awt.Dimension(70, 22));
@@ -281,13 +295,61 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
     }//GEN-LAST:event_tf2ActionPerformed
 
     private void bNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevoActionPerformed
-        Tipo tipoNuevo = new Tipo(IdGenerator.generarIdTipo(), tf2.getText(), tf3.getText(), tf4.getText());
-        
-        CrearArchivoTipos.Crear();
-        
-        System.out.println(tipoNuevo.getId() + " " + tipoNuevo.getNombre());
+        tf1.setText(IdGenerator.generarIdTipo());
+        tf2.setText("");
+        tf3.setText("");
+        tf4.setText("");
+
         
     }//GEN-LAST:event_bNuevoActionPerformed
+
+    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
+        try{
+            File xmlFile = new File("src/data/tipos.xml");
+            ArrayList<Tipo> tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            Tipo tipoNuevo = new Tipo(IdGenerator.generarIdTipo(), tf2.getText(), tf3.getText(), tf4.getText());
+            tipos.add(tipoNuevo);
+            
+            OutputStream stream = new FileOutputStream(xmlFile);
+            GeneradorXMLTipo.Generar(tipos, stream);
+            stream.close();
+            
+            llenarTabla();
+        } catch (IOException e){
+            System.err.println("Error al guadar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_bModifActionPerformed
+
+    private void bBorraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorraActionPerformed
+        try{
+            String idBorrar = tf1.getText();
+            if(idBorrar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No hay ningún tipo seleccionado");
+                return;
+            }
+            
+            int confir = JOptionPane.showConfirmDialog(this, "¿Estás seguro que quieres borrar este tipo?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+            if (confir == JOptionPane.NO_OPTION) return;
+            
+            File xmlFile = new File("scr/data/tipos.xml");
+            ArrayList<Tipo> tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            tipos.removeIf(t->t.getId().equals(idBorrar));
+            
+            OutputStream stream = new FileOutputStream(xmlFile);
+            GeneradorXMLTipo.Generar(tipos, stream);
+            stream.close();
+            
+            tf1.setText("");
+            tf2.setText("");
+            tf3.setText("");
+            tf4.setText("");
+            
+            llenarTabla();
+                
+        }catch(IOException e) {
+            System.err.println("Error al borrar tipo. " + e.getMessage());
+        }
+    }//GEN-LAST:event_bBorraActionPerformed
 
     
     /**

@@ -4,6 +4,14 @@
  */
 package Ventanas;
 
+import Conceptos.Tiquete;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ignac
@@ -16,6 +24,49 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
     public VentanaAdminCompras() {
         initComponents();
     }
+    public void llenarTabla(){
+        try{
+            ArrayList<Tiquete> tiquetes;
+            File xmlFile = new File("src/data/tipos.xml");
+            tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+
+            
+            Vector<String> columnas = new Vector();
+            columnas.addElement("ID");
+            columnas.addElement("Nombre");
+            columnas.addElement("ID Precio");
+            
+            Vector<Vector> datos = new Vector();
+            
+            for (Tiquete t : tiquetes){
+                Vector<String> fila = new Vector<String>();
+                fila.addElement(t.getId());
+                fila.addElement(t.getNombre());
+                fila.addElement(t.getPrecioId());
+                datos.addElement(fila);
+            }
+            
+            DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+            this.jTable1.setModel(modelo);
+            
+            this.jTable1.getSelectionModel().addListSelectionListener(e -> {
+                if(!e.getValueIsAdjusting()){
+                    int fila = jTable1.getSelectedRow();
+                    if(fila!=-1){
+                        tf1.setText((String) jTable1.getValueAt(fila,0));
+                        tf3.setText((String) jTable1.getValueAt(fila,1));
+                        tf3.setText((String) jTable1.getValueAt(fila,2));
+                        tf4.setText((String) jTable1.getValueAt(fila,3));
+                    }
+                }
+            });
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,17 +80,17 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 0), new java.awt.Dimension(2, 32767));
         jLabel1 = new javax.swing.JLabel();
-        tfId = new javax.swing.JTextField();
+        tf1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfFecha = new javax.swing.JTextField();
+        tf3 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        ftNombre = new javax.swing.JTextField();
+        ft2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cbTipo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        tf4 = new javax.swing.JTextField();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -48,39 +99,32 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("ID");
 
-        tfId.setMinimumSize(new java.awt.Dimension(70, 22));
-        tfId.addActionListener(new java.awt.event.ActionListener() {
+        tf1.setMinimumSize(new java.awt.Dimension(70, 22));
+        tf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfIdActionPerformed(evt);
+                tf1ActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Fecha");
 
-        tfFecha.setMinimumSize(new java.awt.Dimension(70, 22));
-        tfFecha.setPreferredSize(new java.awt.Dimension(70, 22));
-        tfFecha.addActionListener(new java.awt.event.ActionListener() {
+        tf3.setMinimumSize(new java.awt.Dimension(70, 22));
+        tf3.setPreferredSize(new java.awt.Dimension(70, 22));
+        tf3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfFechaActionPerformed(evt);
+                tf3ActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Nombre");
 
-        ftNombre.setMinimumSize(new java.awt.Dimension(170, 22));
-        ftNombre.setPreferredSize(new java.awt.Dimension(170, 22));
+        ft2.setMinimumSize(new java.awt.Dimension(170, 22));
+        ft2.setPreferredSize(new java.awt.Dimension(170, 22));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Tipo");
-
-        cbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semanal", "Ida y vuelta", "Único uso" }));
-        cbTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTipoActionPerformed(evt);
-            }
-        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,10 +139,9 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setBackground(new java.awt.Color(240, 240, 240));
+        jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setText("Buscar");
-        jButton1.setContentAreaFilled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -116,6 +159,9 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
             }
         });
 
+        tf4.setMinimumSize(new java.awt.Dimension(70, 22));
+        tf4.setPreferredSize(new java.awt.Dimension(70, 22));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,19 +177,19 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addGap(18, 18, 18)
-                                    .addComponent(ftNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(ft2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(jLabel2)
                                     .addGap(18, 18, 18)
-                                    .addComponent(tfFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(tf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(18, 18, 18)
                             .addComponent(jLabel4)
                             .addGap(18, 18, 18)
-                            .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(32, Short.MAX_VALUE))
@@ -156,15 +202,15 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(tfFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(ftNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ft2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -178,21 +224,18 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIdActionPerformed
+    private void tf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfIdActionPerformed
+    }//GEN-LAST:event_tf1ActionPerformed
 
-    private void tfFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFechaActionPerformed
+    private void tf3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfFechaActionPerformed
+    }//GEN-LAST:event_tf3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+//        if (tf1.getText() != "")
+            
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void cbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbTipoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dispose();
@@ -234,9 +277,8 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbTipo;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JTextField ftNombre;
+    private javax.swing.JTextField ft2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -246,7 +288,8 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tfFecha;
-    private javax.swing.JTextField tfId;
+    private javax.swing.JTextField tf1;
+    private javax.swing.JTextField tf3;
+    private javax.swing.JTextField tf4;
     // End of variables declaration//GEN-END:variables
 }
