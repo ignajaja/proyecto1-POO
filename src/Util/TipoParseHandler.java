@@ -37,8 +37,10 @@ public class TipoParseHandler extends DefaultHandler{
     {
         this.pilaElementos.push(qName);
         
-        if ("tiquete".equals(qName)){
+        if ("tipo".equals(qName)){
             Tipo tipo = new Tipo();
+            String id = attributes.getValue("id"); // esto lo hacemos para poder conseguir el valor del id, porque está en una posición diferente al resto de datos
+            tipo.setId(id);
             this.pilaObjetos.push(tipo);
         }
     }
@@ -48,7 +50,7 @@ public class TipoParseHandler extends DefaultHandler{
     {
         this.pilaElementos.pop();
         
-        if ("tiquete".equals(qName)){
+        if ("tipo".equals(qName)){
             Tipo tipo = (Tipo)this.pilaObjetos.pop();
             this.tipos.add(tipo);
         }
@@ -64,10 +66,7 @@ public class TipoParseHandler extends DefaultHandler{
         {
             return;
         }
-        if ("id".equals(elementoActual())){
-            Tipo tipo = (Tipo)this.pilaObjetos.peek();
-            tipo.setId(valor);
-        } else if ("nombre".equals(elementoActual())){
+        if ("nombre".equals(elementoActual())){
             Tipo tipo = (Tipo)this.pilaObjetos.peek();
             tipo.setNombre(valor);
         } else if ("descripcion".equals(elementoActual())) {
@@ -84,7 +83,7 @@ public class TipoParseHandler extends DefaultHandler{
         return (String)this.pilaElementos.peek();
     }
     
-    public ArrayList getTiquetes()
+    public ArrayList getTipos()
     {
         return tipos;
     }

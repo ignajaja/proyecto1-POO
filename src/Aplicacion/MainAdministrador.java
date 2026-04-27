@@ -4,6 +4,7 @@
  */
 package Aplicacion;
 
+import Util.CrearArchivoTipos;
 import Ventanas.VentanaAdministracion;
 
 /**
@@ -16,6 +17,8 @@ public class MainAdministrador {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        CrearArchivoTipos.Crear();
+        
         VentanaAdministracion admin = new VentanaAdministracion();
         admin.setVisible(true);
     }

@@ -42,6 +42,8 @@ public class PrecioParseHandler extends DefaultHandler{
         
         if ("tiquete".equals(qName)){
             Precio precio = new Precio();
+            String id = attributes.getValue("id");
+            precio.setId(id);
             this.pilaObjetos.push(precio);
         }
     }
@@ -67,10 +69,7 @@ public class PrecioParseHandler extends DefaultHandler{
         {
             return;
         }
-        if ("id".equals(elementoActual())){
-            Precio precio = (Precio)this.pilaObjetos.peek();
-            precio.setId(valor);
-        } else if ("tipo".equals(elementoActual())){
+        if ("tipo".equals(elementoActual())){
             Precio precio = (Precio)this.pilaObjetos.peek();
             precio.setTipo(valor);
         } else if ("precio".equals(elementoActual())) {

@@ -5,6 +5,7 @@
 package Util;
 
 import Conceptos.Tipo;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,7 +16,11 @@ import java.util.ArrayList;
  * @author ignac
  */
 public class CrearArchivoTipos {
-    public static Crear(){
+    public static void Crear(){
+        File archivo = new File("src/data/tipos.xml");
+        if (archivo.exists()){ // esto verifica si el archivo existe, si sí lo retorna, sino lo crea y lo llena
+            return;
+        }
         ArrayList<Tipo> listaTipos = new ArrayList();
         
         Tipo tipo1 = new Tipo();
@@ -46,6 +51,5 @@ public class CrearArchivoTipos {
             } catch(IOException e) {
                 System.err.println("No es encontró el archivo " + e.getMessage());
         }
-        return;
     }
 }

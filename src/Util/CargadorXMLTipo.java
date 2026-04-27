@@ -39,7 +39,7 @@ public class CargadorXMLTipo {
             reader.setContentHandler(handler);
             reader.parse(source);
             
-            tipos = handler.getTiquetes();
+            tipos = handler.getTipos();
             
         } catch (SAXException e) {
             e.printStackTrace();

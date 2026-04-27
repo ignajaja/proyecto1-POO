@@ -39,6 +39,8 @@ public class TiqueteParseHandler extends DefaultHandler{
         
         if ("tiquete".equals(qName)){
             Tiquete tiquete = new Tiquete();
+            String id = attributes.getValue("id");
+            tiquete.setId(id);
             this.pilaObjetos.push(tiquete);
         }
     }
@@ -64,10 +66,7 @@ public class TiqueteParseHandler extends DefaultHandler{
         {
             return;
         }
-        if ("id".equals(elementoActual())){
-            Tiquete tiquete = (Tiquete)this.pilaObjetos.peek();
-            tiquete.setId(valor);
-        } else if ("nombre".equals(elementoActual())){
+        if ("nombre".equals(elementoActual())){
             Tiquete tiquete = (Tiquete)this.pilaObjetos.peek();
             tiquete.setNombre(valor);
         } else if ("precio_id".equals(elementoActual())) {
