@@ -5,6 +5,7 @@
 package Ventanas;
 
 import Conceptos.Tipo;
+import Util.CrearArchivoTipos;
 import Util.IdGenerator;
 import java.io.File;
 import java.io.FileInputStream;
@@ -281,10 +282,8 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
 
     private void bNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevoActionPerformed
         Tipo tipoNuevo = new Tipo(IdGenerator.generarIdTipo(), tf2.getText(), tf3.getText(), tf4.getText());
-//        tipoNuevo.setId(IdGenerator.generarIdTipo());
-//        tipoNuevo.setNombre(tf2.getText());
-//        tipoNuevo.setDescripcion(tf3.getText());
-//        tipoNuevo.setImagen(tf4.getText());
+        
+        CrearArchivoTipos.Crear();
         
         System.out.println(tipoNuevo.getId() + " " + tipoNuevo.getNombre());
         

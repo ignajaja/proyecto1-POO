@@ -17,10 +17,10 @@ import java.util.ArrayList;
  */
 public class CrearArchivoTipos {
     public static void Crear(){
-        File archivo = new File("src/data/tipos.xml");
-        if (archivo.exists()){ // esto verifica si el archivo existe, si sí lo retorna, sino lo crea y lo llena
-            return;
-        }
+//        File archivo = new File("src/data/tipos.xml");
+//        if (archivo.exists()){ // esto verifica si el archivo existe, si sí lo retorna, sino lo crea y lo llena
+//            return;
+//        }
         ArrayList<Tipo> listaTipos = new ArrayList();
         
         Tipo tipo1 = new Tipo();
