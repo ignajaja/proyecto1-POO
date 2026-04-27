@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tipos>
-    <tipo id="1">
+    <tipo id="TIPO-000">
         <nombre>Diario</nombre>
         <descripcion>Uso del tren diario, aplica de lunes a viernes en horario regular de 5am a 9pm</descripcion>
         <imagen>path/imagen.jpg</imagen>
     </tipo>
-    <tipo id="2">
+    <tipo id="TIPO-001">
         <nombre>Ida y vuelta</nombre>
         <descripcion>Uso del tren de ida y vuelta el mismo día durante el horario regular de 5am a 9pm</descripcion>
         <imagen>path/imagen2.jpg</imagen>
     </tipo>
-    <tipo id="3">
+    <tipo id="TIPO-002">
         <nombre>Único uso</nombre>
         <descripcion>Uso único del tren durante el horario regular de 5am a 9pm</descripcion>
         <imagen>path/imagen3.jpg</imagen>
