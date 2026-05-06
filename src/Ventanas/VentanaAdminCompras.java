@@ -23,18 +23,20 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
      */
     public VentanaAdminCompras() {
         initComponents();
+        llenarTabla();
     }
     public void llenarTabla(){
         try{
             ArrayList<Tiquete> tiquetes;
-            File xmlFile = new File("src/data/tipos.xml");
-            tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/tiquetes.xml");
+            tiquetes = Util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
 
             
             Vector<String> columnas = new Vector();
             columnas.addElement("ID");
             columnas.addElement("Nombre");
             columnas.addElement("ID Precio");
+            
             
             Vector<Vector> datos = new Vector();
             
@@ -54,9 +56,8 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
                     int fila = jTable1.getSelectedRow();
                     if(fila!=-1){
                         tf1.setText((String) jTable1.getValueAt(fila,0));
-                        tf3.setText((String) jTable1.getValueAt(fila,1));
-                        tf3.setText((String) jTable1.getValueAt(fila,2));
-                        tf4.setText((String) jTable1.getValueAt(fila,3));
+                        ft2.setText((String) jTable1.getValueAt(fila,1));
+                        tf4.setText((String) jTable1.getValueAt(fila,2));
                     }
                 }
             });
@@ -233,8 +234,46 @@ public class VentanaAdminCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_tf3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        if (tf1.getText() != "")
-            
+        try{
+            ArrayList<Tiquete> tiquetes;
+            File xmlFile = new File("src/Data/tiquetes.xml");
+            tiquetes = Util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+
+            Vector<String> columnas = new Vector();
+            columnas.addElement("ID");
+            columnas.addElement("Nombre");
+            columnas.addElement("ID Precio");
+
+            Vector<Vector> datos = new Vector();
+
+            for (Tiquete t : tiquetes){
+                boolean cumple = true;
+                
+                if (!tf1.getText().trim().isEmpty() && !t.getId().contains(tf1.getText().trim())){
+                    cumple = false;
+                }
+                if (!ft2.getText().trim().isEmpty() && !t.getNombre().toLowerCase().contains(ft2.getText().trim().toLowerCase())){
+                    cumple = false;
+                }
+                if (!tf4.getText().trim().isEmpty() && !t.getPrecioId().contains(tf4.getText().trim())){
+                    cumple = false;
+                }
+                
+                if (cumple){
+                    Vector<String> fila = new Vector<String>();
+                    fila.addElement(t.getId());
+                    fila.addElement(t.getNombre());
+                    fila.addElement(t.getPrecioId());
+                    datos.addElement(fila);
+                }
+            }
+
+            DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+            this.jTable1.setModel(modelo);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

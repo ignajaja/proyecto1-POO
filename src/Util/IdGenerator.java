@@ -19,9 +19,9 @@ public class IdGenerator {
         if (idTipos != -1) return;
         idTipos = 0;
         try{
-            File xmlFile = new File("src/data/tipos.xml");
+            File xmlFile = new File("src/Data/tipos.xml");
             if(!xmlFile.exists()) return;
-            ArrayList<Tipo> tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            ArrayList<Tipo> tipos = Util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
             for (Tipo t: tipos){
                 int numero = Integer.parseInt(t.getId().split("-")[1]);
                 if (numero >= idTipos) idTipos = numero +1;
@@ -35,9 +35,9 @@ public class IdGenerator {
         if (idPreci != -1) return;
         idPreci = 0;
         try{
-            File xmlFile = new File("src/data/precios.xml");
+            File xmlFile = new File("src/Data/precios.xml");
             if(!xmlFile.exists()) return;
-            ArrayList<Precio> precios = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            ArrayList<Precio> precios = Util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
             for (Precio p: precios){
                 int numero = Integer.parseInt(p.getId().split("-")[1]);
                 if (numero >= idPreci) idPreci = numero +1;
@@ -51,10 +51,10 @@ public class IdGenerator {
         if (idTique != -1) return;
         idTique = 0;
         try {
-            File xmlFile = new File("src/data/tiquetes.xml");
+            File xmlFile = new File("src/Data/tiquetes.xml");
             if (!xmlFile.exists()) return;
 
-            ArrayList<Tiquete> tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+            ArrayList<Tiquete> tiquetes = Util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
             if (tiquetes.isEmpty()) return;
 
             for (Tiquete t : tiquetes) {

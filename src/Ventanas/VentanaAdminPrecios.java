@@ -35,22 +35,22 @@ public class VentanaAdminPrecios extends javax.swing.JFrame {
     public void llenarTabla(){
         try{
             ArrayList<Precio> precios;
-            File xmlFile = new File("src/data/tipos.xml");
-            precios = util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/precios.xml");
+            precios = Util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
 
             
             Vector<String> columnas = new Vector();
             columnas.addElement("ID");
-            columnas.addElement("Nombre");
-            columnas.addElement("Descripción");
-            columnas.addElement("Imagen");
+            columnas.addElement("Precio");
+            columnas.addElement("Fecha");
+            columnas.addElement("Tipo");
             
             Vector<Vector> datos = new Vector();
             
             for (Precio p : precios){
                 Vector<String> fila = new Vector<String>();
                 fila.addElement(p.getId());
-                fila.addElement(p.getPrecio());
+                fila.addElement(p.getMonto());
                 fila.addElement(p.getFecha());
                 fila.addElement(p.getTipo());
                 datos.addElement(fila);
@@ -243,11 +243,12 @@ public class VentanaAdminPrecios extends javax.swing.JFrame {
                             .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bNuevo)
                         .addGap(18, 18, 18)
@@ -269,19 +270,9 @@ public class VentanaAdminPrecios extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void bNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevoActionPerformed
-        tf1.setText("");
-        tf2.setText("");
-        tf3.setText("");
-    }//GEN-LAST:event_bNuevoActionPerformed
-
-    private void tf2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf2ActionPerformed
-
-    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
         try{
-            File xmlFile = new File("src/data/precios.xml");
-            ArrayList<Precio> precios = util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/precios.xml");
+            ArrayList<Precio> precios = Util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
             Precio precioNuevo = new Precio(IdGenerator.generarIdPrecio(), tf2.getText(), tf3.getText(), tf4.getText());
             precios.add(precioNuevo);
             
@@ -293,22 +284,63 @@ public class VentanaAdminPrecios extends javax.swing.JFrame {
         } catch (IOException e){
             System.err.println("Error al guadar: " + e.getMessage());
         }
+    }//GEN-LAST:event_bNuevoActionPerformed
+
+    private void tf2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf2ActionPerformed
+
+    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
+        try{
+            String idBuscar = tf1.getText();
+            if(idBuscar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No hay ningún precio seleccionado", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            File xmlFile = new File("src/Data/precios.xml");
+            ArrayList<Precio> precios = Util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
+            boolean encontrado = false;
+            
+            for(Precio p : precios){
+                if (p.getId().equals(idBuscar)){
+                    p.setMonto(tf2.getText());
+                    p.setFecha(tf3.getText());
+                    p.setTipo(tf4.getText());
+                    encontrado = true;
+                    break;
+                }
+            }
+            
+            if (encontrado == false){
+                JOptionPane.showMessageDialog(this, "No se encontró la ID ingresada");
+                return;
+            }
+            
+            OutputStream stream = new FileOutputStream(xmlFile);
+            GeneradorXMLPrecio.Generar(precios, stream);
+            stream.close();
+            
+            llenarTabla();
+        } catch (IOException e){
+            System.err.println("Error al modificar: " + e.getMessage());
+        }
     }//GEN-LAST:event_bModifActionPerformed
 
     private void bBorraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorraActionPerformed
         try{
             String idBorrar = tf1.getText();
             if(idBorrar.isEmpty()){
-                JOptionPane.showMessageDialog(this, "No hay ningún tipo seleccionado");
+                JOptionPane.showMessageDialog(this, "No hay ningún precio seleccionado");
                 return;
             }
             
-            int confir = JOptionPane.showConfirmDialog(this, "¿Estás seguro que quieres borrar este tipo?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+            int confir = JOptionPane.showConfirmDialog(this, "¿Estás seguro que quieres borrar este precio?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
             if (confir == JOptionPane.NO_OPTION) return;
             
-            File xmlFile = new File("scr/data/tipos.xml");
-            ArrayList<Precio> precios = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
-            precios.removeIf(t->t.getId().equals(idBorrar));
+            File xmlFile = new File("src/Data/precios.xml");
+            ArrayList<Precio> precios = Util.CargadorXMLPrecio.Cargar(new FileInputStream(xmlFile));
+            precios.removeIf(p->p.getId().equals(idBorrar));
             
             OutputStream stream = new FileOutputStream(xmlFile);
             GeneradorXMLPrecio.Generar(precios, stream);
@@ -322,7 +354,7 @@ public class VentanaAdminPrecios extends javax.swing.JFrame {
             llenarTabla();
                 
         }catch(IOException e) {
-            System.err.println("Error al borrar tipo. " + e.getMessage());
+            System.err.println("Error al borrar precio. " + e.getMessage());
         }
     }//GEN-LAST:event_bBorraActionPerformed
 

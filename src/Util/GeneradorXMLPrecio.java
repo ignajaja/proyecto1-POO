@@ -21,7 +21,7 @@ public class GeneradorXMLPrecio {
         for (Precio p : precios) {
             pw.println("    <precio id=\"" + p.getId() + "\">");
             pw.println("        <tipo>" + p.getTipo() + "</tipo>");
-            pw.println("        <precio>" + p.getPrecio() + "</precio>");
+            pw.println("        <monto>" + p.getMonto() + "</monto>");
             pw.println("        <fecha>" + p.getFecha() + "</fecha>");
             pw.println("    </precio>");
         }

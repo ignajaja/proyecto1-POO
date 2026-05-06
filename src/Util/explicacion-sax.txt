@@ -1,0 +1,16 @@
+Programación Orientada a Objetos
+Felipe Pineda - 2025069197
+Ignacio Elizondo - 2025088220
+
+Uso del SAX. 
+
+Para la carga de los datos del proyecto se utilizó el analizador SAX, una API especializada en el simple uso del XML. 
+Su funcionamiento se basa en una lectura secuencial de los archivos XML, es decir, maneja el archivo de inicio a final y reacciona conforme al encontrar una etiqueta de apertura, de contenido o de cierre.
+
+Se utilizó esta herramienta por encima de las otras brindadas en la clase debido a su funcionamiento sencillo a la hora de cargar y guardar objetos. No es necesario mantener todo el documento XML en memoria mientras se lee, ya que simplemente crea los objetos conforme aparecen. Es una herramienta eficiente para la lectura puesto que el formato de los archivos XML del proyecto es sumamente repetitivo, por lo que el SAX permite controlar cada registro de forma segura y concisa.
+
+Sus ventajas son el motivo por el que escogimos esta opción, ya que era la opción más segura para elaborar el proyecto. Su poco consumo de memoria es fundamental, ya que no está cargando todo el XML al mismo tiempo. Es sumamente veloz a la hora de leer archivos con estructuras sencillas. Otro punto a su favor es que va construyendo los objetos mientras va leyendo las etiquetas, no tiene que leer el archivo completo para hacerlo. Además, mantiene separado el manejo de todos los archivos XML dentro del paquete Util, lo que hace más sencillo su control.  
+
+Asimismo, el uso del SAX tiene sus desventajas. Su principal problema es que no se permite moverse libremente dentro del XML, debido a su funcionamiento de leerlo en orden. Otro problema del uso del SAX puede relacionarse con la falta de comodidad en el momento de modificar una parte específica del archivo directamente. Y por último, puede ser un poco difícil el controlar correctamente en que etiqueta se encuentra el programa para asignar correctamente cada dato al atributo correcto.  
+
+En conclusión, para este tipo de programa el uso del SAX es fundamental, ya que permite manejar de manera adecuada los archivos XML que se pedían para este proyecto. Los archivos se utilizar únicamente cómo medio de almacenamiento, mientras que el sistema trabaja con los objetos Java. De esta manera, se mantiene el uso requerido para el control de archivos dentro del paquete Util.  

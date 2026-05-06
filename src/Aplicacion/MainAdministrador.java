@@ -4,12 +4,12 @@
  */
 package Aplicacion;
 
-import Util.CrearArchivoTipos;
+import Util.CrearArchivos;
 import Ventanas.VentanaAdministracion;
 
 /**
  * elaborado por Ignacio Elizondo y Felipe Pineda
- * carné: 2025088220 y <carné de felipe> (respectivamente)
+ * carné: 2025088220 y 2025069197 (respectivamente)
  */
 public class MainAdministrador {
 
@@ -17,7 +17,7 @@ public class MainAdministrador {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CrearArchivoTipos.Crear();
+        CrearArchivos.Crear();
         
         VentanaAdministracion admin = new VentanaAdministracion();
         admin.setVisible(true);

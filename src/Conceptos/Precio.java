@@ -1,10 +1,8 @@
 package Conceptos;
 
-import java.util.Date;
-
 public class Precio {
     String id;
-    String precio;
+    String monto;
     String fecha;
     String tipo; // esto es el id del tipo
 
@@ -16,12 +14,12 @@ public class Precio {
         this.id = idPrecio;
     }
 
-    public String getPrecio() {
-        return precio;
+    public String getMonto() {
+        return monto;
     }
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
+    public void setMonto(String monto) {
+        this.monto = monto;
     }
 
     public String getFecha() {
@@ -40,9 +38,9 @@ public class Precio {
         this.tipo = tipo;
     }
 
-    public Precio(String id, String precio, String fecha, String tipo) {
+    public Precio(String id, String monto, String fecha, String tipo) {
         this.id = id;
-        this.precio = precio;
+        this.monto = monto;
         this.fecha = fecha;
         this.tipo = tipo;
     }

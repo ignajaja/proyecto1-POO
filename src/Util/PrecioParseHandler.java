@@ -2,13 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package util;
+package Util;
 
 import Conceptos.Precio;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -40,7 +37,7 @@ public class PrecioParseHandler extends DefaultHandler{
     {
         this.pilaElementos.push(qName);
         
-        if ("tiquete".equals(qName)){
+        if ("precio".equals(qName)){
             Precio precio = new Precio();
             String id = attributes.getValue("id");
             precio.setId(id);
@@ -53,7 +50,7 @@ public class PrecioParseHandler extends DefaultHandler{
     {
         this.pilaElementos.pop();
         
-        if ("tiquete".equals(qName)){
+        if ("precio".equals(qName)){
             Precio precio = (Precio)this.pilaObjetos.pop();
             this.precios.add(precio);
         }
@@ -72,17 +69,12 @@ public class PrecioParseHandler extends DefaultHandler{
         if ("tipo".equals(elementoActual())){
             Precio precio = (Precio)this.pilaObjetos.peek();
             precio.setTipo(valor);
-        } else if ("precio".equals(elementoActual())) {
-            Precio precio = (Precio)this.pilaObjetos.peek();
-            precio.setPrecio(valor);
+        } else if ("monto".equals(elementoActual())) {
+            Precio p = (Precio)this.pilaObjetos.peek();
+            p.setMonto(valor);
         } else if ("fecha".equals(elementoActual())) {
             Precio precio = (Precio)this.pilaObjetos.peek();
-            try { // esta es la única manera que encontré para añadir el date manteniendo su formato
-                Date valorFecha = new SimpleDateFormat("dd/MM/yyyy").parse(valor);
-                precio.setFecha(valorFecha);
-            } catch (ParseException e) {
-                System.err.println("fecha inválida");
-            }
+            precio.setFecha(valor);
         }
     }
     

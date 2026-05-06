@@ -5,10 +5,10 @@
 package Aplicacion;
 //
 //import Conceptos.Tipo;
-//import Util.CrearArchivoTipos;
+//import Util.CrearArchivos;
 //import Util.GeneradorXMLTipo;
 //import Util.IdGenerator;
-import Util.CrearArchivoTipos;
+import Util.CrearArchivos;
 import Ventanas.VentanaKiosko;
 //import java.io.FileOutputStream;
 //import java.io.IOException;
@@ -17,7 +17,7 @@ import Ventanas.VentanaKiosko;
 
 /**
  * elaborado por Ignacio Elizondo y Felipe Pineda
- * carné: 2025088220 y <carné de felipe> (respectivamente)
+ * carné: 2025088220 y 2025069197 (respectivamente)
  */
 public class MainKiosko {
 
@@ -26,7 +26,7 @@ public class MainKiosko {
      */
     public static void main(String[] args) {
         
-        CrearArchivoTipos.Crear();
+        CrearArchivos.Crear();
 
         VentanaKiosko kiosko = new VentanaKiosko();
         kiosko.setVisible(true);

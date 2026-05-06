@@ -141,9 +141,14 @@ public class VentaTipo1 extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
+        if(tf1.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Debe ingresar el nombre del comprador", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         try{
-            File xmlFile = new File("src/data/tiquetes.xml");
-            ArrayList<Tiquete> tiquetes = util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/tiquetes.xml");
+            ArrayList<Tiquete> tiquetes = Util.CargadorXMLTiquete.Cargar(new FileInputStream(xmlFile));
             Tiquete tiqueteNuevo = new Tiquete(IdGenerator.generarIdTiquete(),tf1.getText(), "PREC-000");
             tiquetes.add(tiqueteNuevo);
             

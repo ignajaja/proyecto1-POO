@@ -1,0 +1,17 @@
+<precios>
+    <precio id="PREC-009">
+        <tipo>TIPO-001</tipo>
+        <monto>20000</monto>
+        <fecha>10-05-2026</fecha>
+    </precio>
+    <precio id="PREC-010">
+        <tipo>TIPO-002</tipo>
+        <monto>4000</monto>
+        <fecha>10-05-2026</fecha>
+    </precio>
+    <precio id="PREC-011">
+        <tipo>TIPO-003</tipo>
+        <monto>2500</monto>
+        <fecha>10-05-2026</fecha>
+    </precio>
+</precios>

@@ -5,7 +5,7 @@
 package Ventanas;
 
 import Conceptos.Tipo;
-import Util.CrearArchivoTipos;
+import Util.CrearArchivos;
 import Util.GeneradorXMLTipo;
 import Util.IdGenerator;
 import java.io.File;
@@ -37,8 +37,8 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
     public void llenarTabla(){
         try{
             ArrayList<Tipo> tipos;
-            File xmlFile = new File("src/data/tipos.xml");
-            tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/tipos.xml");
+            tipos = Util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
 
             
             Vector<String> columnas = new Vector();
@@ -295,18 +295,9 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
     }//GEN-LAST:event_tf2ActionPerformed
 
     private void bNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevoActionPerformed
-        tf1.setText(IdGenerator.generarIdTipo());
-        tf2.setText("");
-        tf3.setText("");
-        tf4.setText("");
-
-        
-    }//GEN-LAST:event_bNuevoActionPerformed
-
-    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
         try{
-            File xmlFile = new File("src/data/tipos.xml");
-            ArrayList<Tipo> tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/tipos.xml");
+            ArrayList<Tipo> tipos = Util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
             Tipo tipoNuevo = new Tipo(IdGenerator.generarIdTipo(), tf2.getText(), tf3.getText(), tf4.getText());
             tipos.add(tipoNuevo);
             
@@ -317,6 +308,43 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
             llenarTabla();
         } catch (IOException e){
             System.err.println("Error al guadar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_bNuevoActionPerformed
+
+    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
+        try{
+            String idBuscar = tf1.getText();
+            if(idBuscar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No hay ningún tipo seleccionado", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            File xmlFile = new File("src/Data/tipos.xml");
+            ArrayList<Tipo> tipos = Util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            boolean encontrado = false;
+            System.out.println(tipos);
+            for(Tipo t : tipos){
+                if (t.getId().equals(idBuscar)){
+                    t.setNombre(tf2.getText());
+                    t.setDescripcion(tf3.getText());
+                    t.setImagen(tf4.getText());
+                    encontrado = true;
+                    break;
+                }
+            }
+            
+            if (encontrado == false){
+                JOptionPane.showMessageDialog(this, "No se encontró la ID ingresada");
+                return;
+            }
+            
+            OutputStream stream = new FileOutputStream(xmlFile);
+            GeneradorXMLTipo.Generar(tipos, stream);
+            stream.close();
+            
+            llenarTabla();
+                
+        } catch (IOException e){
+            System.err.println("Error al modificar: " + e.getMessage());
         }
     }//GEN-LAST:event_bModifActionPerformed
 
@@ -331,8 +359,8 @@ public class VentanaAdminTipos extends javax.swing.JFrame {
             int confir = JOptionPane.showConfirmDialog(this, "¿Estás seguro que quieres borrar este tipo?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
             if (confir == JOptionPane.NO_OPTION) return;
             
-            File xmlFile = new File("scr/data/tipos.xml");
-            ArrayList<Tipo> tipos = util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
+            File xmlFile = new File("src/Data/tipos.xml");
+            ArrayList<Tipo> tipos = Util.CargadorXMLTipo.Cargar(new FileInputStream(xmlFile));
             tipos.removeIf(t->t.getId().equals(idBorrar));
             
             OutputStream stream = new FileOutputStream(xmlFile);
